@@ -47,16 +47,18 @@ export default function ItemView() {
   const { item } = useLoaderData<LoaderData>();
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-10">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-10 gap-x-10">
       <div className="relative z-10">
         <h2 className="text-2xl text-gray-900 font-extrabold tracking-tight sm:text-3xl">
           {item.name}
         </h2>
-        <div className="flex items-center divide-x">
-          <p className="mt-4 text-lg font-medium pr-4">{item.price} €</p>
+        <div className="flex items-center">
+          <p className="mt-4 text-lg font-medium pr-4 border-r">
+            {item.price} €
+          </p>
 
           {item.offer ? (
-            <button className="mt-4 pl-4 flex items-center space-x-3 cursor-pointer group">
+            <button className="mt-4 ml-4 flex items-center space-x-3 cursor-pointer group pr-2 focus:outline-none focus:ring-2 focus:ring-red-500 rounded">
               <span className="bg-red-500 font-bold text-white p-2 rounded text-xs group-hover:bg-red-400">
                 LIMITED OFFER
               </span>
@@ -68,16 +70,18 @@ export default function ItemView() {
           ) : null}
         </div>
 
-        <button className="mt-40 bg-red-500 p-4 text-white rounded font-bold">
+        <button className="focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 mt-8 bg-red-500 p-4 text-white rounded font-bold w-full hover:bg-red-400">
           Add to cart
         </button>
       </div>
 
-      <img
-        src={item.previewURL}
-        alt="Preview not available"
-        className="w-full h-full object-center object-cover group-hover:opacity-75 max-w-xl -mt-20 lg:-mt-28"
-      />
+      <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
+        <img
+          src={item.previewURL}
+          alt="Preview not available"
+          className="w-full h-full object-center object-cover group-hover:opacity-75"
+        />
+      </div>
     </div>
   );
 }

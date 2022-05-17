@@ -41,22 +41,32 @@ export default function Index() {
   const { items } = useLoaderData<LoaderData>();
 
   return (
-    <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-      {items.map((item) => (
-        <Link key={item.letter} to={`./items/${item.letter}`} className="group">
-          <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
-            <img
-              src={item.previewURL}
-              alt="No Preview Available"
-              className="w-full h-full object-center object-cover group-hover:opacity-75"
-            />
-          </div>
-          <h3 className="mt-4 text-sm text-gray-700">{item.name}</h3>
-          <p className="mt-1 text-lg font-medium text-gray-900">
-            {item.price} €
-          </p>
-        </Link>
-      ))}
+    <div>
+      <h2 className="text-2xl font-bold tracking-tight text-gray-900">Items</h2>
+      <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+        {items.map((item) => (
+          <Link
+            key={item.letter}
+            to={`./items/${item.letter}`}
+            className="group focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 rounded-lg"
+          >
+            <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
+              <img
+                src={item.previewURL}
+                alt="No Preview Available"
+                className="w-full h-full object-center object-cover group-hover:opacity-75"
+              />
+            </div>
+
+            <div className="p-1">
+              <h3 className="mt-4 text-sm text-gray-700">{item.name}</h3>
+              <p className="mt-1 text-lg font-medium text-gray-900">
+                {item.price} €
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
