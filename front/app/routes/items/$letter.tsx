@@ -1,6 +1,9 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useCatch, useLoaderData } from "@remix-run/react";
+import type { ShoppingCart } from "~/components/shopping-cart";
+import { commitSession, getSession } from "~/sessions";
 import type { Item } from "..";
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -13,6 +16,73 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   const data = await response.json();
   return json(data);
+};
+
+const emptyShoppingCart: ShoppingCart = {
+  items: [],
+};
+
+export const action: ActionFunction = async ({ params, request }) => {
+  const formData = await request.formData();
+  if (!formData.has("amount")) {
+    throw json({ message: "Invalid payload" }, { status: 400 });
+  }
+
+  const amount = Number(formData.get("amount"));
+  const letter = params.letter;
+
+  const response = await fetch(`${process.env.API}/items/${letter}`);
+  if (response.status === 404) {
+    throw json({ message: "Internal Server Error" }, { status: 500 });
+  }
+
+  const data = await response.json();
+  if (!data.item) {
+    throw json({ message: "Item not found" }, { status: 404 });
+  }
+
+  const session = await getSession(request.headers.get("Cookie"));
+  const { item: itemToAdd } = data as { item: Item };
+
+  const shoppingCart: ShoppingCart =
+    session.get("shoppingCart") || emptyShoppingCart;
+
+  const isItemInShoppingCart = shoppingCart.items.some(
+    (item) => item.details.letter === itemToAdd.letter
+  );
+
+  if (isItemInShoppingCart) {
+    const newShoppingCart: ShoppingCart = {
+      items: shoppingCart.items.map((item) => {
+        if (item.details.letter === itemToAdd.letter) {
+          return {
+            ...item,
+            amount: item.amount + 1,
+          };
+        }
+
+        return item;
+      }),
+    };
+
+    return redirect(`/items/${letter}`, {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
+  }
+
+  const newShoppingCart: ShoppingCart = {
+    items: [...shoppingCart.items, { amount: 1, details: itemToAdd }],
+  };
+
+  session.set("shoppingCart", newShoppingCart);
+
+  return redirect(`/items/${letter}`, {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 };
 
 export function CatchBoundary() {
@@ -70,9 +140,13 @@ export default function ItemView() {
           ) : null}
         </div>
 
-        <button className="focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 mt-8 bg-red-500 p-4 text-white rounded font-bold w-full hover:bg-red-400">
-          Add to cart
-        </button>
+        <form method="POST">
+          <button className="focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 mt-8 bg-red-500 p-4 text-white rounded font-bold w-full hover:bg-red-400">
+            Add to cart
+          </button>
+
+          <input type="hidden" name="amount" value="1" />
+        </form>
       </div>
 
       <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">

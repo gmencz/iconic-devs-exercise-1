@@ -30,9 +30,9 @@ export const Header = ({ shoppingCart }: Props) => {
             <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
           </div>
 
-          {shoppingCart.items.length === 0 ? (
+          {shoppingCart.items.length > 0 ? (
             <span className="absolute bg-red-500 text-xs text-white rounded-full w-5 h-5 flex items-center justify-center -top-1.5 -right-1.5">
-              {shoppingCart.items.length + 1}
+              {shoppingCart.items.length}
             </span>
           ) : null}
         </button>

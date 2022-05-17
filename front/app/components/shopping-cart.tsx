@@ -10,7 +10,10 @@ interface Props {
 }
 
 export interface ShoppingCart {
-  items: Item[];
+  items: {
+    details: Item;
+    amount: number;
+  }[];
 }
 
 export const ShoppingCartSlideOver = ({
@@ -68,7 +71,6 @@ export const ShoppingCartSlideOver = ({
                       </div>
                     </div>
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                      {/* Replace with your content */}
                       {items.length === 0 ? (
                         <div>
                           <p>There's nothing in your shopping cart.</p>
@@ -83,15 +85,14 @@ export const ShoppingCartSlideOver = ({
 
                           <button
                             onClick={() => setShow(false)}
-                            className="mt-8 text-red-500 font-semibold underline"
+                            className="mt-8 text-red-500 font-semibold underline focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-4 rounded"
                           >
                             Go back to shopping
                           </button>
                         </div>
                       ) : (
-                        <></>
+                        <div>{/* The items */}</div>
                       )}
-                      {/* /End replace */}
                     </div>
                   </div>
                 </Dialog.Panel>
