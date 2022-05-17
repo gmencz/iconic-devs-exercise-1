@@ -27,43 +27,41 @@ interface Item {
   offer?: ItemOffer;
 }
 
-// Most of the items were taken from the Amazon and Alcampo websites.
+// Items were taken from the Amazon website.
 export const items: Item[] = [
   {
     letter: "A",
-    price: 50,
-    name: "Optimum Nutrition Gold Standard 100% Whey Protein Powder, Double Rich Chocolate 2 Pound",
-    previewURL:
-      "https://m.media-amazon.com/images/I/61LUdzOBr+L._AC_SX679_.jpg",
+    price: 12.99,
+    name: "DELCARINO Men's Long Sleeve Button Up Shirts Solid Slim Fit Casual Business Formal Dress Shirt",
+    previewURL: `${process.env.API}/item_A.png`,
     offer: {
-      amount: 3,
-      price: 130,
+      amount: 2,
+      price: 19.99,
     },
   },
 
   {
     letter: "B",
-    price: 2,
-    name: "ALCAMPO Fresh Eggs category A (12 units)",
-    previewURL: "https://www.alcampo.es/media/hd3/h3f/11316536410142.jpg",
+    price: 12.66,
+    name: "SSLR Mens Hawaiian Shirt Flamingos Casual Short Sleeve Button Down Shirts Aloha Shirt",
+    previewURL: `${process.env.API}/item_B.png`,
     offer: {
       amount: 3,
-      price: 4.5,
+      price: 27.99,
     },
   },
 
   {
     letter: "C",
-    price: 25,
-    name: "CeraVe Hydrating Facial Cleanser | Moisturizing Non-Foaming Face Wash with Hyaluronic Acid, Ceramides and Glycerin | 16 Fluid Ounce",
-    previewURL: "https://m.media-amazon.com/images/I/51DbQev1thL._SX679_.jpg",
+    price: 20.39,
+    name: "IGEEKWELL Mens Golf Polo Shirt Short Sleeve Tennis Running Daily Hiking Fishing Polo Shirt",
+    previewURL: `${process.env.API}/item_C.png`,
   },
 
   {
     letter: "D",
-    price: 15,
-    name: "Apple Pencil (2nd Generation)",
-    previewURL:
-      "https://m.media-amazon.com/images/I/21SPDoiRuGL._AC_SX679_.jpg",
+    price: 11.77,
+    name: "HISDERN Men's Inner Contrast Casual Shirts Formal Classic Button Down Dress Shirt Long Sleeve Printed Regular Fit Shirt",
+    previewURL: `${process.env.API}/item_D.png`,
   },
 ];
