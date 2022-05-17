@@ -10,8 +10,30 @@ Full-Stack software application (supermarket checkout).
 
 ## Technical description
 
-- `back` contains the back-end of the application and it's written in NodeJS using TypeScript and [ExpressJS](https://expressjs.com/) as the web framework.
-- `front` contains the front-end of the application and it's written in React using the [Remix](https://remix.run/) framework. The framework solves similar problems to the ones [Next.js](https://nextjs.org/) solves but I've been using it more recently and personally prefer it over Next which is why I chose it for this project.
+I've chosen a number of technologies which I'm most comfortable with or simply prefer over other current technologies available since the technologies requirements weren't too strict.
+
+### Back-end
+
+Source code is in the `back` folder and contains the back-end of the application.
+
+Technologies used:
+
+- NodeJS
+- TypeScript
+- ExpressJS
+- Jest
+- Eslint
+- Nodemon
+
+### Front-end
+
+Source code is in the `front` folder and contains the front-end of the application.
+
+Technologies used:
+
+- React
+- Remix (React framework)
+- Tailwind (CSS Framework)
 
 ## Local development.
 

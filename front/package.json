@@ -1,8 +1,7 @@
 {
   "name": "front",
   "private": true,
-  "description": "",
-  "license": "",
+  "description": "Iconic Devs Exercise Front-End",
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
