@@ -111,18 +111,40 @@ export const ShoppingCartSlideOver = ({
                                 <div className="ml-4 flex flex-1 flex-col">
                                   <div>
                                     <div className="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>
-                                        <Link
-                                          className="focus:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-red-500"
-                                          to={`/items/${item.details.letter}`}
-                                        >
-                                          {item.details.name}
-                                        </Link>
-                                      </h3>
-                                      <p className="ml-4 flex">
-                                        {item.details.price}{" "}
-                                        <span className="ml-1">€</span>
-                                      </p>
+                                      <div>
+                                        {item.details.offer &&
+                                        item.amount ===
+                                          item.details.offer.amount ? (
+                                          <span className="bg-red-500 text-xs text-white px-2 py-1 rounded mb-2 inline-block">
+                                            LIMITED OFFER (
+                                            {item.details.offer.amount} for{" "}
+                                            {item.details.offer.price}€)
+                                          </span>
+                                        ) : null}
+
+                                        <h3>
+                                          <Link
+                                            className="focus:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                            to={`/items/${item.details.letter}`}
+                                          >
+                                            {item.details.name}
+                                          </Link>
+                                        </h3>
+                                      </div>
+
+                                      {item.details.offer &&
+                                      item.amount ===
+                                        item.details.offer.amount ? (
+                                        <p className="ml-4 flex">
+                                          {item.details.offer.price}{" "}
+                                          <span className="ml-1">€</span>
+                                        </p>
+                                      ) : (
+                                        <p className="ml-4 flex">
+                                          {item.details.price * item.amount}{" "}
+                                          <span className="ml-1">€</span>
+                                        </p>
+                                      )}
                                     </div>
                                   </div>
                                   <div className="flex mt-2 flex-1 items-end justify-between text-sm">
@@ -147,7 +169,7 @@ export const ShoppingCartSlideOver = ({
                           <div className="border-t mt-8 border-gray-200 py-6 px-4 sm:px-6">
                             <div className="flex justify-between text-base font-medium text-gray-900">
                               <p>Subtotal</p>
-                              <p>{totalPrice} €</p>
+                              <p>{totalPrice.toFixed(2)} €</p>
                             </div>
                             <p className="mt-0.5 text-sm text-gray-500">
                               Shipping and taxes calculated at checkout.
