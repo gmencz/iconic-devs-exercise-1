@@ -1,6 +1,7 @@
 # Iconic Devs Exercise 1 - Gabriel Mendez
 
-Full-Stack software application (supermarket checkout).
+Full-Stack software application (shopping store). The app has a big focus on UX and UI meaning that the entire website is fully accessible and can be navigated with just your keyboard. The app
+also uses SSR for a better experience.
 
 ## Requirements:
 
