@@ -23,7 +23,7 @@ const emptyShoppingCart: ShoppingCart = {
   totalPrice: 0,
 };
 
-const getTotalPrice = (items: ShoppingCart["items"]) =>
+export const getTotalPrice = (items: ShoppingCart["items"]) =>
   items.reduce((sum, item) => {
     if (item.amount === item.details.offer?.amount) {
       return sum + item.details.offer.price;

@@ -153,12 +153,23 @@ export const ShoppingCartSlideOver = ({
                                     </p>
 
                                     <div className="flex">
-                                      <button
-                                        type="button"
-                                        className="font-medium text-red-500 hover:text-red-400 rounded focus:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                      <form
+                                        action="/shopping-cart/remove-item"
+                                        method="POST"
                                       >
-                                        Remove
-                                      </button>
+                                        <button
+                                          type="submit"
+                                          className="font-medium text-red-500 hover:text-red-400 rounded focus:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                        >
+                                          Remove
+                                        </button>
+
+                                        <input
+                                          type="hidden"
+                                          name="letter"
+                                          value={item.details.letter}
+                                        />
+                                      </form>
                                     </div>
                                   </div>
                                 </div>
