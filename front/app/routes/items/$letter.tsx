@@ -20,6 +20,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 const emptyShoppingCart: ShoppingCart = {
   items: [],
+  totalPrice: 0,
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
@@ -28,9 +29,7 @@ export const action: ActionFunction = async ({ params, request }) => {
     throw json({ message: "Invalid payload" }, { status: 400 });
   }
 
-  const amount = Number(formData.get("amount"));
   const letter = params.letter;
-
   const response = await fetch(`${process.env.API}/items/${letter}`);
   if (response.status === 404) {
     throw json({ message: "Internal Server Error" }, { status: 500 });
@@ -52,18 +51,29 @@ export const action: ActionFunction = async ({ params, request }) => {
   );
 
   if (isItemInShoppingCart) {
+    const items: ShoppingCart["items"] = shoppingCart.items.map((item) => {
+      if (item.details.letter === itemToAdd.letter) {
+        return {
+          ...item,
+          amount: item.amount + 1,
+        };
+      }
+
+      return item;
+    });
+
     const newShoppingCart: ShoppingCart = {
-      items: shoppingCart.items.map((item) => {
-        if (item.details.letter === itemToAdd.letter) {
-          return {
-            ...item,
-            amount: item.amount + 1,
-          };
+      items,
+      totalPrice: items.reduce((sum, item) => {
+        if (item.amount === item.details.offer?.amount) {
+          return sum + item.details.offer.price;
         }
 
-        return item;
-      }),
+        return sum + item.amount * item.details.price;
+      }, 0),
     };
+
+    session.set("shoppingCart", newShoppingCart);
 
     return redirect(`/items/${letter}`, {
       headers: {
@@ -72,8 +82,21 @@ export const action: ActionFunction = async ({ params, request }) => {
     });
   }
 
+  const amount = Number(formData.get("amount"));
+  const items: ShoppingCart["items"] = [
+    ...shoppingCart.items,
+    { amount, details: itemToAdd },
+  ];
+
   const newShoppingCart: ShoppingCart = {
-    items: [...shoppingCart.items, { amount: 1, details: itemToAdd }],
+    items,
+    totalPrice: items.reduce((sum, item) => {
+      if (item.amount === item.details.offer?.amount) {
+        return sum + item.details.offer.price;
+      }
+
+      return sum + item.amount * item.details.price;
+    }, 0),
   };
 
   session.set("shoppingCart", newShoppingCart);

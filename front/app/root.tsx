@@ -29,6 +29,7 @@ export const meta: MetaFunction = () => ({
 
 const emptyShoppingCart: ShoppingCart = {
   items: [],
+  totalPrice: 0,
 };
 
 export const loader: LoaderFunction = async ({ request }) => {

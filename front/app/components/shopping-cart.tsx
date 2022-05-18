@@ -1,5 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
+import { Link } from "@remix-run/react";
 import { Fragment } from "react";
 import type { Item } from "~/routes";
 
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export interface ShoppingCart {
+  totalPrice: number;
   items: {
     details: Item;
     amount: number;
@@ -21,7 +23,7 @@ export const ShoppingCartSlideOver = ({
   setShow,
   shoppingCart,
 }: Props) => {
-  const { items } = shoppingCart;
+  const { items, totalPrice } = shoppingCart;
 
   return (
     <Transition.Root show={show} as={Fragment}>
@@ -70,9 +72,9 @@ export const ShoppingCartSlideOver = ({
                         </div>
                       </div>
                     </div>
-                    <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                    <div className="relative mt-6 flex-1">
                       {items.length === 0 ? (
-                        <div>
+                        <div className="px-4 sm:px-6">
                           <p>There's nothing in your shopping cart.</p>
 
                           <div className="mt-16 p-8">
@@ -91,7 +93,85 @@ export const ShoppingCartSlideOver = ({
                           </button>
                         </div>
                       ) : (
-                        <div>{/* The items */}</div>
+                        <div className="mt-4 flow-root ">
+                          <ul className="-my-6 divide-y divide-gray-200 px-4 sm:px-6">
+                            {items.map((item) => (
+                              <li
+                                key={item.details.letter}
+                                className="flex py-6"
+                              >
+                                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                  <img
+                                    src={item.details.previewURL}
+                                    alt={"Preview Not Available"}
+                                    className="h-full w-full object-cover object-center"
+                                  />
+                                </div>
+
+                                <div className="ml-4 flex flex-1 flex-col">
+                                  <div>
+                                    <div className="flex justify-between text-base font-medium text-gray-900">
+                                      <h3>
+                                        <Link
+                                          className="focus:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                          to={`/items/${item.details.letter}`}
+                                        >
+                                          {item.details.name}
+                                        </Link>
+                                      </h3>
+                                      <p className="ml-4 flex">
+                                        {item.details.price}{" "}
+                                        <span className="ml-1">€</span>
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="flex mt-2 flex-1 items-end justify-between text-sm">
+                                    <p className="text-gray-500">
+                                      Qty {item.amount}
+                                    </p>
+
+                                    <div className="flex">
+                                      <button
+                                        type="button"
+                                        className="font-medium text-red-500 hover:text-red-400 rounded focus:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                      >
+                                        Remove
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+
+                          <div className="border-t mt-8 border-gray-200 py-6 px-4 sm:px-6">
+                            <div className="flex justify-between text-base font-medium text-gray-900">
+                              <p>Subtotal</p>
+                              <p>{totalPrice} €</p>
+                            </div>
+                            <p className="mt-0.5 text-sm text-gray-500">
+                              Shipping and taxes calculated at checkout.
+                            </p>
+                            <div className="mt-6">
+                              <button className="focus:outline-none focus:ring-2 w-full focus:ring-red-500 focus:ring-offset-2 flex items-center justify-center rounded-md border border-transparent bg-red-500 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-red-400">
+                                Checkout
+                              </button>
+                            </div>
+                            <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+                              <p>
+                                or{" "}
+                                <button
+                                  type="button"
+                                  className="font-medium text-red-500 hover:text-red-400 rounded focus:ring-offset-1 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                  onClick={() => setShow(false)}
+                                >
+                                  Continue Shopping
+                                  <span aria-hidden="true"> &rarr;</span>
+                                </button>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
                       )}
                     </div>
                   </div>
