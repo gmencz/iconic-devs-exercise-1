@@ -25,6 +25,10 @@ export const ShoppingCartSlideOver = ({
 }: Props) => {
   const { items, totalPrice } = shoppingCart;
 
+  const checkout = () => {
+    alert("This is just a demo! No real checkout page");
+  };
+
   return (
     <Transition.Root show={show} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setShow}>
@@ -186,7 +190,10 @@ export const ShoppingCartSlideOver = ({
                               Shipping and taxes calculated at checkout.
                             </p>
                             <div className="mt-6">
-                              <button className="focus:outline-none focus:ring-2 w-full focus:ring-red-500 focus:ring-offset-2 flex items-center justify-center rounded-md border border-transparent bg-red-500 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-red-400">
+                              <button
+                                onClick={checkout}
+                                className="focus:outline-none focus:ring-2 w-full focus:ring-red-500 focus:ring-offset-2 flex items-center justify-center rounded-md border border-transparent bg-red-500 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-red-400"
+                              >
                                 Checkout
                               </button>
                             </div>
