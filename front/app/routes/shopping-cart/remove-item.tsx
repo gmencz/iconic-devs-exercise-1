@@ -2,14 +2,14 @@ import type { ActionFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { ShoppingCart } from "~/components/shopping-cart";
+import { getTotalPrice } from "~/components/shopping-cart";
 import { commitSession, getSession } from "~/sessions";
-import { getTotalPrice } from "../items/$letter";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const letter = formData.get("letter");
   if (!letter) {
-    throw json({ message: "Invalid payload" }, { status: 400 });
+    return json({ message: "Invalid payload" }, { status: 400 });
   }
 
   const session = await getSession(request.headers.get("Cookie"));

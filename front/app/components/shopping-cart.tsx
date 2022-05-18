@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { Link } from "@remix-run/react";
 import { Fragment } from "react";
-import type { Item } from "~/routes";
+import type { Item } from "~/types";
 
 interface Props {
   show: boolean;
@@ -17,6 +17,15 @@ export interface ShoppingCart {
     amount: number;
   }[];
 }
+
+export const getTotalPrice = (items: ShoppingCart["items"]) =>
+  items.reduce((sum, item) => {
+    if (item.amount === item.details.offer?.amount) {
+      return sum + item.details.offer.price;
+    }
+
+    return sum + item.amount * item.details.price;
+  }, 0);
 
 export const ShoppingCartSlideOver = ({
   show,

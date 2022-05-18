@@ -4,8 +4,9 @@ import clsx from "clsx";
 import { json } from "@remix-run/node";
 import { Form, useCatch, useLoaderData, useTransition } from "@remix-run/react";
 import type { ShoppingCart } from "~/components/shopping-cart";
+import { getTotalPrice } from "~/components/shopping-cart";
 import { commitSession, getSession } from "~/sessions";
-import type { Item } from "..";
+import type { Item } from "~/types";
 
 const emptyShoppingCart: ShoppingCart = {
   items: [],
@@ -31,30 +32,21 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   });
 };
 
-export const getTotalPrice = (items: ShoppingCart["items"]) =>
-  items.reduce((sum, item) => {
-    if (item.amount === item.details.offer?.amount) {
-      return sum + item.details.offer.price;
-    }
-
-    return sum + item.amount * item.details.price;
-  }, 0);
-
 export const action: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData();
   if (!formData.has("amount")) {
-    throw json({ message: "Invalid payload" }, { status: 400 });
+    return json({ error: "Invalid payload" }, { status: 400 });
   }
 
   const letter = params.letter;
   const response = await fetch(`${process.env.API}/items/${letter}`);
   if (response.status === 404) {
-    throw json({ message: "Internal Server Error" }, { status: 500 });
+    return json({ error: "Internal Server Error" }, { status: 500 });
   }
 
   const data = await response.json();
   if (!data.item) {
-    throw json({ message: "Item not found" }, { status: 404 });
+    return json({ error: "Item not found" }, { status: 404 });
   }
 
   const session = await getSession(request.headers.get("Cookie"));

@@ -38,15 +38,16 @@ export const loader: LoaderFunction = async ({ request }) => {
     return json({ shoppingCart: emptyShoppingCart });
   }
 
-  const data = {
-    shoppingCart: session.get("shoppingCart"),
-  };
-
-  return json(data, {
-    headers: {
-      "Set-Cookie": await commitSession(session),
+  return json(
+    {
+      shoppingCart: session.get("shoppingCart"),
     },
-  });
+    {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    }
+  );
 };
 
 interface LoaderData {
