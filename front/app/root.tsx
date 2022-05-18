@@ -42,8 +42,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     shoppingCart: session.get("shoppingCart"),
   };
 
-  console.log({ data });
-
   return json(data, {
     headers: {
       "Set-Cookie": await commitSession(session),
