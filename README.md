@@ -1,7 +1,10 @@
 # Iconic Devs Exercise 1 - Gabriel Mendez
 
-Full-Stack software application (shopping store). The app has a big focus on UX and UI meaning that the entire website is fully accessible and can be navigated with just your keyboard. The app
-also uses SSR for a better experience.
+Full-Stack software application (shopping store). The app has a big focus on UX and UI meaning that the entire website is fully accessible and can be navigated with just your keyboard. The appalso uses SSR for a better experience.
+
+## Live version
+
+The app is deployed at https://iconic-devs-exercise-1-front.fly.dev
 
 ## Requirements:
 
